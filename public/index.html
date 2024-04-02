@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Tasks List</title>
+    <link rel = "icon" href = "logo.png" type ="image/x-icon">
+    <link rel="stylesheet" href="style/style.css">
+    <!-- Firebase JavaScript SDK -->
+    <script type="module">
+        // Import the functions you need from the Firebase Realtime Database SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+    apiKey: "AIzaSyDOX7r8rxxrxLP27CPO5db7dgSlv6YWQWc",
+    authDomain: "daily-task-manager-86ace.firebaseapp.com",
+    projectId: "daily-task-manager-86ace",
+    storageBucket: "daily-task-manager-86ace.appspot.com",
+    messagingSenderId: "117129478373",
+    appId: "1:117129478373:web:190c8e5e84d5111ef6d40c",
+    measurementId: "G-C52CYKZE91"
+  };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Function to handle form submission
+        document.getElementById("submit").addEventListener('click', function(e){
+            e.preventDefault();
+
+            // Get form data
+            const date = document.getElementById("date").value;
+            const task1 = document.getElementById("task1").value.trim();
+            const task2 = document.getElementById("task2").value.trim();
+            const task3 = document.getElementById("task3").value.trim();
+            const task4 = document.getElementById("task4").value.trim();
+            const task5 = document.getElementById("task5").value.trim();
+
+            // Set data into Firebase Realtime Database
+            push(ref(db, 'Daily_TASK/'), {
+                date: date,
+                task1: task1, 
+                task2: task2, 
+                task3: task3, 
+                task4: task4, 
+                task5: task5
+            }).then(() => {
+                alert("Tasks submitted successfully!");
+            }).catch(error => {
+                console.error('Error submitting data:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+
+        // Set the default value for the date field
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById("date").value = today;
+
+            // Set default values for task fields
+            document.getElementById("task1").value = ""; // Set empty string as default value
+            document.getElementById("task2").value = "";
+            document.getElementById("task3").value = "";
+            document.getElementById("task4").value = "";
+            document.getElementById("task5").value = "";
+        });
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Daily Tasks List</h1>
+            <div class="nav-buttons">
+                <a href="#" class="btn">Home</a>
+                <a href="tasks.html" class="btn">Tasks</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="box">
+            <div class="form">
+                <h2>Add Tasks</h2>
+                <form>
+                    <div class="inputbox">
+                        <input type="date" value="" id="date" required>
+                        <span>Date</span>
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" value="" id="task1" required>
+                        <span>Task 1</span>
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" value="" id="task2" required>
+                        <span>Task 2</span>
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" value="" id="task3" required>
+                        <span>Task 3</span>
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" value="" id="task4" required>
+                        <span>Task 4</span>
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" value="" id="task5" required>
+                        <span>Task 5</span>
+                    </div>
+                    <input type="submit" value="Submit" class="sub" id="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Daily Tasks List</p>
+        </div>
+    </footer>
+</body>
+</html>
